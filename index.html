@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Inference Simulators &mdash; LLM Hub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #1c1815; --bg-card: #231e1a; --bg-code: #2b2520;
+            --text-primary: #efe8dc; --text-secondary: #a2978b;
+            --accent: #aabd59; --accent-dim: #aabd5944; --accent-glow: #aabd5933;
+            --border: #3a322b;
+            --font-display: 'Bricolage Grotesque', sans-serif;
+            --font-mono: 'Geist Mono', 'Geist Mono', monospace;
+            --font-body: 'Instrument Sans', sans-serif;
+            --max-width: 960px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-primary); color: var(--text-primary);
+               font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+               overflow-x: hidden; }
+        .hero { min-height: 60vh; display: flex; flex-direction: column;
+                justify-content: center; align-items: center;
+                padding: 4rem 1.5rem 3rem; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 50%;
+                        transform: translateX(-50%); width: 600px; height: 600px;
+                        background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+                        pointer-events: none; z-index: 0; }
+        .hero > * { position: relative; z-index: 1; }
+        .series-label { font-family: var(--font-mono); font-size: 0.85rem;
+                        color: var(--accent); letter-spacing: 0.15em;
+                        text-transform: uppercase; margin-bottom: 1rem; }
+        .hero h1 { font-family: var(--font-display);
+                   font-size: clamp(2rem, 5vw, 3rem); font-weight: 700;
+                   color: var(--text-primary); line-height: 1.2; margin-bottom: 1rem; }
+        .hero h1 .accent { color: var(--accent); }
+        .hero .subtitle { font-size: 1.1rem; color: var(--text-secondary);
+                          max-width: 720px; margin-bottom: 1.5rem; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem;
+                justify-content: center; margin-bottom: 1rem; }
+        .tag { font-family: var(--font-mono); font-size: 0.75rem;
+               padding: 0.25rem 0.75rem; border-radius: 999px;
+               border: 1px solid var(--accent); color: var(--accent);
+               background: var(--accent-dim); white-space: nowrap; }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 2rem 1.5rem; }
+        h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+             color: var(--accent); margin: 1rem 0 1.25rem; }
+        .deck-list { display: flex; flex-direction: column; gap: 0.6rem;
+                     list-style: none; padding: 0; counter-reset: deck; }
+        .deck-card { display: flex; gap: 1rem; padding: 1rem 1.25rem;
+                     background: var(--bg-card); border: 1px solid var(--border);
+                     border-left: 3px solid var(--accent); border-radius: 6px;
+                     transition: border-color 0.15s; counter-increment: deck; }
+        .deck-card:hover { border-color: var(--accent); }
+        .deck-card.roadmap { border-left-color: #e3b174; }
+        .deck-card.roadmap:hover { border-color: #e3b174; }
+        .deck-card .num { font-family: var(--font-mono); font-size: 0.8rem;
+                          color: var(--accent); min-width: 2rem;
+                          padding-top: 0.15rem; }
+        .deck-card.roadmap .num { color: #e3b174; }
+        .deck-card .num::before { content: counter(deck, decimal-leading-zero); }
+        .deck-card .body { flex: 1; min-width: 0; }
+        .deck-card .deck-title { font-family: var(--font-display); font-size: 1.05rem;
+                                 font-weight: 600; color: var(--text-primary);
+                                 margin-bottom: 0.2rem; }
+        .deck-card a.deck-title { text-decoration: none; }
+        .deck-card a.deck-title:hover { color: var(--accent); }
+        .deck-card .desc { font-size: 0.92rem; color: var(--text-secondary); }
+        .deck-card .meta { font-family: var(--font-mono); font-size: 0.7rem;
+                           color: var(--text-secondary); margin-top: 0.4rem;
+                           display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .badge { display: inline-block; font-family: var(--font-mono);
+                 font-size: 0.65rem; padding: 0.1rem 0.5rem; border-radius: 999px;
+                 border: 1px solid var(--border); color: var(--text-secondary); }
+        .badge.live { border-color: var(--accent); color: var(--accent);
+                      background: var(--accent-dim); }
+        .badge.roadmap { border-color: #e3b174; color: #e3b174;
+                         background: rgba(227,177,116,0.08); }
+        .callout { background: var(--bg-card); border-left: 3px solid var(--accent);
+                   border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+        .callout p { margin-bottom: 0; color: var(--text-secondary); }
+        .callout p strong { color: var(--text-primary); }
+        .footer { text-align: center; padding: 3rem 1.5rem;
+                  color: var(--text-secondary); font-size: 0.85rem;
+                  border-top: 1px solid var(--border); max-width: var(--max-width);
+                  margin: 3rem auto 0; }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.8rem; }
+            .deck-card { flex-direction: column; gap: 0.3rem; }
+        }
+            .deck-card.code { border-left-color: #97cdc6; }
+        .deck-card.code .num { color: #97cdc6; }
+        .deck-card.code .num::before { content: none; }
+        .badge.code { border-color: #97cdc6; color: #97cdc6; background: rgba(151,205,198,0.08); }
+    </style>
+
+<style>:root{font-synthesis-weight:none}        .deck-card.code { border-left-color: #97cdc6; }
+        .deck-card.code .num { color: #97cdc6; }
+        .deck-card.code .num::before { content: none; }
+        .badge.code { border-color: #97cdc6; color: #97cdc6; background: rgba(151,205,198,0.08); }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="series-label">LLM Hub &mdash; LLM Inference Simulators</div>
+    <h1>LLM Inference <span class="accent">Simulators</span></h1>
+    <p class="subtitle">How to build, accelerate, validate and integrate simulators for LLM inference and novel AI hardware. Eleven decks run from why architects simulate at all (and how software models relate to RTL), through a hands-on simulator-development tutorial, the physics of LLM serving and the existing tool landscape, to a live disaggregated-serving simulator, metrics and validation, power and energy, acceleration techniques, PyTorch / ONNX Runtime / HEIR integration, a reading list, and a primer for a simulation-and-frameworks engineering role.</p>
+    <div class="tags"><span class="tag">SimPy</span><span class="tag">Discrete-event simulation</span><span class="tag">Disaggregated serving</span><span class="tag">Hot-spots</span><span class="tag">Power &amp; energy</span><span class="tag">Acceleration</span><span class="tag">PyTorch / ONNX / HEIR</span><span class="tag">11 decks + code</span></div>
+</header>
+<main class="container">
+    <h2>Presentations in This Series</h2>
+    <ol class="deck-list">
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_01_Why_Simulate/">Why Simulate? From Spreadsheets to RTL &rarr;</a><div class="desc">The fidelity ladder of pre-silicon models &mdash; analytical, discrete-event, transaction-level, cycle-accurate, RTL, emulation &mdash; what each answers, what each costs, and how software-level simulators and RTL simulation feed each other.</div><div class="meta"><span class="badge live">live</span><span>Architecture exploration &middot; Fidelity ladder &middot; TLM &middot; RTL simulation</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_02_Simulator_Development_Tutorial/">Simulator Development: A Hands-On Tutorial &rarr;</a><div class="desc">Build a discrete-event simulator from an empty file: the event queue, simulated time, processes, resources and probes; then SimPy idioms, how to structure a simulator so it survives contact with architects, modelling buses, memories and pipelines, and making the simulator itself fast.</div><div class="meta"><span class="badge live">live</span><span>Discrete-event simulation &middot; SimPy &middot; Event queue &middot; Resources</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_03_LLM_Inference_Workloads/">What You Are Simulating: LLM Inference Workloads &rarr;</a><div class="desc">Prefill versus decode, the roofline, KV-cache arithmetic, batching and parallelism &mdash; the first-order physics every LLM inference simulator must get right, with the formulas to put in a cost model.</div><div class="meta"><span class="badge live">live</span><span>Prefill &middot; Decode &middot; Roofline &middot; KV cache</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_04_Simulator_Landscape/">The LLM Simulator Landscape &rarr;</a><div class="desc">A guided tour of the tools: serving-level simulators (Vidur, LLMServingSim, SplitwiseSim), hardware-level models (LLMCompass, Timeloop, SCALE-Sim), system and network simulators (ASTRA-sim, gem5, SST, SystemC), and analytical calculators &mdash; sorted by the question each one answers.</div><div class="meta"><span class="badge live">live</span><span>Vidur &middot; LLMServingSim &middot; LLMCompass &middot; ASTRA-sim</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_05_Disaggregated_Inference/">Disaggregated Inference, Simulated &rarr;</a><div class="desc">Why splitting prefill and decode onto separate hardware raises goodput (Splitwise, DistServe, Mooncake, NVIDIA Dynamo), what the KV-cache transfer costs, and a live discrete-event simulator you can drive in the browser &mdash; a JavaScript port of the SimPy model in Disaggregated_Inference_Sim.</div><div class="meta"><span class="badge live">live</span><span>Splitwise &middot; DistServe &middot; Mooncake &middot; Dynamo / NIXL</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_06_Metrics_Hotspots_Validation/">Metrics, Hot-Spots &amp; Validation &rarr;</a><div class="desc">Turning a simulation into evidence: latency distributions, utilisation, MFU/MBU, stage breakdowns and hot-spot attribution; traces in Perfetto; statistics that survive review; and the verification ladder &mdash; unit, invariant, analytic, behavioural, correlation &mdash; wired into CI.</div><div class="meta"><span class="badge live">live</span><span>Percentiles &middot; Utilisation &middot; Hot-spots &middot; Perfetto</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_07_Power_and_Energy/">Power &amp; Energy in Inference Simulators &rarr;</a><div class="desc">Speed is half of performance. Static and dynamic power, why data movement dominates energy, the simulator's calibrated power model, prefill running hot and decode cool, DVFS and power caps as a third roof, energy proportionality, the link to RTL power and thermal analysis, and what photonic systems must pay for &mdash; all measured on the companion simulator.</div><div class="meta"><span class="badge live">live</span><span>Joules per token &middot; DVFS &middot; Power caps &middot; Static power</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_08_Accelerating_Simulators/">Accelerating Inference Simulators &rarr;</a><div class="desc">Making this kind of simulator fast without changing its answers: event abstraction, incremental state, lazy bookkeeping, exact macro-stepping, probe discipline, compiled kernels, parallel and multi-fidelity sweeps, surrogates, sampling, and parallel discrete-event simulation &mdash; each measured on the companion simulator.</div><div class="meta"><span class="badge live">live</span><span>Event abstraction &middot; Macro-stepping &middot; Profiling &middot; Multi-fidelity</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_09_Framework_Integration/">From PyTorch, ONNX &amp; HEIR to a Simulator &rarr;</a><div class="desc">How real applications reach a simulated accelerator: graph capture with torch.fx / torch.export and torch.compile backends, out-of-tree PyTorch devices, ONNX Runtime execution providers, MLIR, and Google's HEIR compiler for fully homomorphic encryption.</div><div class="meta"><span class="badge live">live</span><span>torch.export &middot; torch.compile &middot; PrivateUse1 &middot; ONNX Runtime EP</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_10_Further_Learning/">Further Learning: Books, Courses, Papers, Tools &rarr;</a><div class="desc">A curated reading list for simulator engineers: textbooks on discrete-event simulation and computer architecture, university courses, the key LLM-serving and simulator papers, and the open-source tools worth reading the source of.</div><div class="meta"><span class="badge live">live</span><span>Books &middot; Courses &middot; Papers &middot; Tutorials</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/InfSim_11_Role_Primer/">Role Primer: Simulation &amp; Frameworks Engineer &rarr;</a><div class="desc">The series applied to a real job: a photonic-computing architecture group's simulation and frameworks role, mapped requirement by requirement onto the decks, with the domain background (photonics, FHE) and a set of practice questions.</div><div class="meta"><span class="badge live">live</span><span>Job mapping &middot; Photonic compute &middot; FHE &middot; Practice questions</span></div></div></li>
+    </ol>
+    <h2>Companion Code</h2>
+    <ol class="deck-list" style="counter-reset: none;">
+<li class="deck-card code"><div class="num">&lt;/&gt;</div><div class="body"><a class="deck-title" href="https://github.com/BrendanJamesLynskey/Disaggregated_Inference_Sim">Disaggregated_Inference_Sim &rarr;</a><div class="desc">A SimPy discrete-event simulator of prefill/decode-disaggregated LLM serving: roofline cost model, continuous batching, KV-capacity admission, a shared KV link, colocated baseline; latency percentiles, goodput, utilisation, MFU/MBU, stage breakdown, hot-spot attribution, Perfetto traces; a power model (static + pJ/FLOP + pJ/byte + pJ/bit, DVFS, per-pool power caps, joules per token); an exact accelerated path, search utilities, 32 tests, and the JavaScript port used live in deck 05.</div><div class="meta"><span class="badge code">code</span><span>Python &middot; SimPy &middot; pytest &middot; Hypothesis</span></div></div></li>
+    </ol>
+    <div class="callout">
+        <p><strong>How to read this series.</strong> Decks 01&ndash;02 are about simulators in general and stand alone. Decks 03&ndash;05 apply them to LLM serving and culminate in the live simulator. Decks 06&ndash;09 cover what turns a simulator into an engineering tool: trustworthy metrics, power and energy, simulator speed, and integration with real frameworks. Deck 10 is a reading list; deck 11 applies the whole series to a real job specification.</p>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Part of the <a href="https://github.com/BrendanJamesLynskey/LLMs">LLMs hub</a> &mdash; an index of presentation series for AI/LLM engineers.</p>
+</footer>
+
+</body>
+</html>
