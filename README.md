@@ -33,3 +33,5 @@ Decks 01–02 are about simulators in general and stand alone. Decks 03–05 app
 ## Where this fits
 
 Part of the [LLMs hub](https://github.com/BrendanJamesLynskey/LLMs), under *Hardware & Inference*. Complements [Local LLM Hosting](https://github.com/BrendanJamesLynskey/LLM_Hub_Local_LLM_Hosting) (the real serving engines these simulators model), [NVIDIA GPU Architectures](https://github.com/BrendanJamesLynskey/LLM_Hub_NVIDIA_GPUs) and [Google TPUs](https://github.com/BrendanJamesLynskey/LLM_Hub_Google_TPUs) (the hardware in the cost models), and the [Key LLM Publications](https://github.com/BrendanJamesLynskey/LLM_Hub_Key_Publications) efficient-inference deck.
+
+**Sister series:** [FHE Accelerator Simulators](https://github.com/BrendanJamesLynskey/FHE_Hub_Accelerator_Simulators) ([live](https://brendanjameslynskey.github.io/FHE_Hub_Accelerator_Simulators/)) applies the same methods (SimPy, metrics and hot-spots, power under a TDP, a bit-exact JavaScript port) to an FHE accelerator running CKKS bootstrapping, with code in [FHE_Accelerator_Sim](https://github.com/BrendanJamesLynskey/FHE_Accelerator_Sim).
