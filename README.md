@@ -24,7 +24,7 @@ How to build, accelerate, validate and integrate simulators for LLM inference an
 
 | Repo | What's inside |
 |------|---------------|
-| [Disaggregated_Inference_Sim](https://github.com/BrendanJamesLynskey/Disaggregated_Inference_Sim) | A SimPy discrete-event simulator of prefill/decode-disaggregated LLM serving: roofline cost model, continuous batching, KV-capacity admission, a shared KV link, colocated baseline; latency percentiles, goodput, utilisation, MFU/MBU, stage breakdown, hot-spot attribution, Perfetto traces; a power model (static + pJ/FLOP + pJ/byte + pJ/bit, DVFS, per-pool power caps, joules per token); an exact accelerated path, search utilities, 32 tests, and the JavaScript port used live in deck 05. |
+| [Disaggregated_Inference_Sim](https://github.com/BrendanJamesLynskey/Disaggregated_Inference_Sim) | A SimPy discrete-event simulator of prefill/decode-disaggregated LLM serving: roofline cost model, continuous batching, KV-capacity admission, a shared KV link, colocated baseline; latency percentiles, goodput, utilisation, MFU/MBU, stage breakdown, hot-spot attribution, Perfetto traces; a power model (static + pJ/FLOP + pJ/byte + pJ/bit, DVFS, per-pool power caps, joules per token); an exact accelerated path, search utilities, 36 tests, and the JavaScript port used live in deck 05. |
 
 ## How to read this series
 
