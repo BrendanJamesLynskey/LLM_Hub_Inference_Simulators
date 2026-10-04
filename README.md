@@ -109,4 +109,6 @@ Part of the [LLMs hub](https://github.com/BrendanJamesLynskey/LLMs), under *Hard
 
 **Sister series:** [FHE Accelerator Simulators](https://github.com/BrendanJamesLynskey/FHE_Hub_Accelerator_Simulators) ([live](https://brendanjameslynskey.github.io/FHE_Hub_Accelerator_Simulators/)) applies the same methods (SimPy, metrics and hot-spots, power under a TDP, a bit-exact JavaScript port) to an FHE accelerator running CKKS bootstrapping, with code in [FHE_Accelerator_Sim](https://github.com/BrendanJamesLynskey/FHE_Accelerator_Sim).
 
+**Sister series:** [Fourier Optics for Inference](https://github.com/BrendanJamesLynskey/LLM_Hub_Fourier_Optics_Inference) ([live](https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/)) extends this series' simulator with heterogeneous pools, FFT-mixing models and an optical transform engine in the prefill pool, with a break-even analysis and the KV hand-off options.
+
 **Related series:** [Simulation Engineering Toolkit](https://github.com/BrendanJamesLynskey/SimEng_Hub_Toolkit) ([live](https://brendanjameslynskey.github.io/SimEng_Hub_Toolkit/)) covers the engineering around a simulator: a bit-exact Rust port of this series' simulator with PyO3 ([Rust_DES_Kernel](https://github.com/BrendanJamesLynskey/Rust_DES_Kernel)), testing frameworks, CI, specifications and more.
