@@ -1,3 +1,7 @@
+<!-- portfolio-strip:start (brief 40) -->
+<sub>**Brendan Lynskey** · [Portfolio home](https://brendanjameslynskey.github.io/) · [Interactive sites](https://brendanjameslynskey.github.io/#sites)</sub>
+<!-- portfolio-strip:end -->
+
 # LLM Inference Simulators
 
 How to build, accelerate, validate and integrate simulators for LLM inference and novel AI hardware. Eleven interactive decks run from *why* architecture teams simulate (and how software-level models relate to RTL simulation), through a hands-on simulator-development tutorial in SimPy, the physics of LLM serving and the existing simulator landscape, to a **live disaggregated-serving simulator in the browser**, then metrics and validation, **power and energy** (DVFS, power caps, joules per token), acceleration techniques, and integration with PyTorch, ONNX Runtime and HEIR. A reading list and a role primer close the series.
